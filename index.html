@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akintan Femi — Frontend Developer</title>
+  <meta name="description" content="Frontend Developer specialising in React, Next.js & TypeScript. Based in Lagos, Nigeria. Open to remote opportunities." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #080810;
+      --surface: #0F0F1A;
+      --surface2: #16162A;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.11);
+      --text: #EEECf0;
+      --muted: #7A7A9A;
+      --accent: #6C8EFF;
+      --accent2: #C084FC;
+      --accent3: #34D399;
+      --glow: rgba(108,142,255,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* GRAIN */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+      height: 60px;
+      background: rgba(8,8,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.05rem;
+      color: #fff;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .logo-text span { color: var(--muted); font-weight: 300; }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent), var(--accent2)) !important;
+      color: #fff !important;
+      padding: 0.45rem 1.2rem !important;
+      border-radius: 6px;
+      font-weight: 500 !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85 !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      z-index: 200;
+    }
+
+    .hamburger span {
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      border-radius: 2px;
+      display: block;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px; left: 0; right: 0; bottom: 0;
+      background: rgba(8,8,16,0.98);
+      backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.75rem;
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--accent); }
+
+    .mobile-menu .mobile-cta {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    /* ---- SHARED ---- */
+    .container {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+    }
+
+    section { padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 2.5rem); max-width: 1060px; margin: 0 auto; }
+
+    .label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 500px;
+      margin-bottom: 3rem;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 60px;
+      padding-left: clamp(1.25rem, 5vw, 2.5rem);
+      padding-right: clamp(1.25rem, 5vw, 2.5rem);
+      padding-bottom: 5rem;
+      max-width: 1060px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent3);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.75rem;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent3);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52,211,153,0.4); }
+      50% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(52,211,153,0); }
+    }
+
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(2.75rem, 8vw, 6.5rem);
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      background: linear-gradient(130deg, var(--accent) 20%, var(--accent2) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.875rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      padding: 0.8rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.925rem;
+      transition: opacity 0.2s, transform 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      padding: 0.8rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 0.925rem;
+      border: 1px solid var(--border2);
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); background: var(--glow); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollanim 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollanim {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ---- ABOUT ---- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: start;
+    }
+
+    .about-avatar-wrap {
+      position: relative;
+    }
+
+    .about-avatar {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .avatar-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(108,142,255,0.06) 1px, transparent 0);
+      background-size: 20px 20px;
+    }
+
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+    .stat-chips {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .stat-chip {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 0.6rem 0.875rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .stat-chip strong {
+      display: block;
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1.1;
+      margin-bottom: 0.1rem;
+    }
+
+    .about-body p {
+      color: var(--muted);
+      font-size: 0.975rem;
+      font-weight: 300;
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.5rem;
+    }
+
+    .tech-pill {
+      font-size: 0.78rem;
+      color: var(--text);
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      padding: 0.3rem 0.8rem;
+      font-weight: 400;
+    }
+
+    /* ---- SKILLS ---- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(108,142,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    .skill-icon {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-card h3 {
+      font-weight: 500;
+      font-size: 0.975rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ---- PROJECTS ---- */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: clamp(1.25rem, 4vw, 2rem);
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: border-color 0.25s, transform 0.25s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover { border-color: rgba(108,142,255,0.28); transform: translateY(-2px); }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-body { flex: 1; min-width: 0; }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-emoji {
+      font-size: 1.5rem;
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      background: var(--surface2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    .project-meta h3 {
+      font-weight: 500;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.15rem;
+    }
+
+    .project-type {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .project-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.875rem;
+    }
+
+    .highlight {
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      color: var(--accent);
+      background: rgba(108,142,255,0.1);
+      border: 1px solid rgba(108,142,255,0.18);
+      border-radius: 4px;
+      padding: 0.18rem 0.55rem;
+    }
+
+    .project-arrow {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 1rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .project-card:hover .project-arrow { border-color: var(--accent); color: var(--accent); }
+
+    .featured-badge {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent3);
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.2);
+      padding: 0.18rem 0.6rem;
+      border-radius: 100px;
+    }
+
+    /* ---- EXPERIENCE ---- */
+    .timeline {
+      position: relative;
+      padding-left: 1.75rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0.4rem; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.25rem;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 0.4rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(108,142,255,0.5);
+    }
+
+    .timeline-date {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-title {
+      font-weight: 500;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-company {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .timeline-body {
+      color: var(--muted);
+      font-size: 0.875rem;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    .timeline-body ul {
+      padding-left: 1.1rem;
+      margin-top: 0.45rem;
+    }
+
+    .timeline-body li { margin-bottom: 0.3rem; }
+
+    /* ---- CONTACT ---- */
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: clamp(2rem, 6vw, 4rem);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-glow {
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 250px;
+      background: radial-gradient(ellipse, rgba(108,142,255,0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-box h2 {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 400px;
+      margin: 0 auto 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 0.875rem;
+      flex-wrap: wrap;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.75rem clamp(1.25rem, 5vw, 2.5rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1060px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-right { display: flex; gap: 1.5rem; }
+    .footer-right a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-right a:hover { color: var(--text); }
+
+    /* ---- DIVIDERS ---- */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    /* ---- FADE IN ---- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero { padding-bottom: 4rem; }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-avatar-wrap {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .about-avatar {
+        width: 100px;
+        min-width: 100px;
+        aspect-ratio: 1;
+        border-radius: 12px;
+      }
+
+      .avatar-initials { font-size: 2.5rem; }
+
+      .stat-chips {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 0;
+        flex: 1;
+      }
+
+      .stat-chip { flex: 1; min-width: 90px; }
+
+      .project-card { flex-direction: column; }
+      .project-arrow { display: none; }
+
+      .hero-scroll { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 2.4rem; }
+      .btn-primary, .btn-ghost { padding: 0.75rem 1.25rem; font-size: 0.875rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-mark">FA</div>
+      <span class="logo-text">Femi <span>Akintan</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <a href="www.linkedin.com/in/femi-akintan" target="_blank">LinkedIn</a>
+      <li><a href="#contact" class="nav-cta">Hire me</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Toggle menu" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#projects" class="mobile-link">Work</a>
+    <a href="#experience" class="mobile-link">Experience</a>
+    <a href="www.linkedin.com/in/femi-akintan" target="_blank">LinkedIn</a>
+    <a href="#contact" class="mobile-cta mobile-link">Hire me →</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="container" style="max-width:1060px;">
+    <div class="hero" id="home">
+      <div class="hero-eyebrow">
+        <div class="pulse-dot"></div>
+        Available for remote roles
+      </div>
+      <h1>Building interfaces<br>people <em>actually</em> love.</h1>
+      <p class="hero-sub">
+        Frontend developer based in Lagos, Nigeria. I specialise in React, Next.js &amp; TypeScript — turning design systems into fast, accessible, production-ready products.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View my work →</a>
+        <a href="#contact" class="btn-ghost">Get in touch</a>
+      </div>
+
+      <div class="hero-scroll">
+        <span>scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+     <div class="about-avatar-wrap fade-in">
+  <div class="about-avatar">
+    <div class="avatar-dots"></div>
+    <div class="avatar-photo">
+      <img src="./Femi.jpg" alt="Femi Akintan">
+    </div>
+  </div>
+  <div class="stat-chips">
+    <div class="stat-chip">
+      <strong>3+</strong>
+      yrs experience
+    </div>
+    <div class="stat-chip">
+      <strong>5+</strong>
+      projects shipped
+    </div>
+  </div>
+</div>
+
+      <div class="about-body fade-in">
+        <span class="label">About me</span>
+        <h2 class="section-title">I care deeply about the craft.</h2>
+        <p>
+          I'm Femi — a frontend developer with 3+ years turning wireframes into polished digital products across health-tech, fintech, and SaaS. I've worked solo, in small teams, and across company boundaries, always with the same focus: clean code, great UX, and zero layout bugs.
+        </p>
+        <p>
+          Currently at Fertily, I have been able to redesign end-to-end admin dashboard for a fertility clinic management platform, On the side, I ship my own SaaS products for the African market — most recently BillMetry, a full-stack invoicing platform for freelancers.
+        </p>
+        <p>
+          When I'm not writing TypeScript, I'm learning new tools, obsessing over typographic details, or brainstorming the next product idea.
+        </p>
+
+        <div class="tech-pills">
+          <span class="tech-pill">React.js</span>
+          <span class="tech-pill">Next.js 14</span>
+          <span class="tech-pill">TypeScript</span>
+          <span class="tech-pill">Tailwind CSS</span>
+          <span class="tech-pill">Supabase</span>
+          <span class="tech-pill">Framer Motion</span>
+          <span class="tech-pill">shadcn/ui</span>
+          <span class="tech-pill">Git & GitHub</span>
+          <span class="tech-pill">Vercel</span>
+          <span class="tech-pill">Figma</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <span class="label fade-in">What I bring</span>
+    <h2 class="section-title fade-in">Core expertise</h2>
+    <p class="section-sub fade-in">From pixel-perfect UI to scalable component architecture — here's how I can help your team.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-icon">⚛️</div>
+        <h3>React & Next.js</h3>
+        <p>Production apps built with React 18 and Next.js 14 — App Router, SSR, dynamic routing, middleware. I know my way around the full stack.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🎨</div>
+        <h3>UI Systems & Design</h3>
+        <p>Strong eye for design. I translate Figma specs into accessible, responsive UIs with Tailwind CSS, shadcn/ui, and Radix primitives — pixel-perfect fidelity.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🔷</div>
+        <h3>TypeScript</h3>
+        <p>Type-safe codebases from the start. I write typed components, hooks, and API layers that catch bugs before they ship.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🗄️</div>
+        <h3>Backend & Supabase</h3>
+        <p>Full-stack experience with Supabase — auth, row-level security, edge functions, and realtime subscriptions. PostgreSQL schema design and REST API integration.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">⚡</div>
+        <h3>Performance & Optimisation</h3>
+        <p>Code-splitting, lazy loading, image optimisation, and bundle analysis. I care about Core Web Vitals and deliver fast experiences on low-bandwidth connections.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🤝</div>
+        <h3>Cross-team Collaboration</h3>
+        <p>Comfortable working with PMs, designers, and backend engineers. I give clear feedback on designs, write legible PRs, and communicate blockers early.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <span class="label fade-in">Selected work</span>
+    <h2 class="section-title fade-in">Things I've built</h2>
+    <p class="section-sub fade-in">A mix of client work, hackathon projects, and indie SaaS — all shipped to production.</p>
+
+    <div class="projects-list">
+
+      <a href="https://billmetry.vercel.app" target="_blank" 
+   rel="noopener" class="project-card fade-in">
+        <div class="project-body">
+          <div class="project-header">
+         
+            <div class="project-meta">
+              <h3>BillMetry</h3>
+              <span class="project-type">Full-stack SaaS · Indie project · 2026</span>
+            </div>
+          </div>
+          <p class="project-desc">A professional invoicing and payment platform for African freelancers. Multi-currency invoices, automated PDF generation, Flutterwave payments, Gmail SMTP delivery, and a tiered subscription model — all wired together from scratch.</p>
+          <div class="project-highlights">
+            <span class="highlight">Multi-currency (NGN, USD, GHS)</span>
+            <span class="highlight">Flutterwave webhooks</span>
+            <span class="highlight">PDF invoice generation</span>
+            <span class="highlight">Gmail SMTP delivery</span>
+          </div>
+          <div class="project-stack">
+            <span class="tag">Next.js 14</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Supabase</span>
+            <span class="tag">Flutterwave</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">Vercel</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a href="https://fertilyapp.com/" target="_blank" 
+   rel="noopener" class="project-card fade-in">
+        <div class="project-body">
+          <div class="project-header">
+
+            <div class="project-meta">
+              <h3>Fertily Admin & SDK Dashboard</h3>
+              <span class="project-type">Contract · Clinic management · 2026</span>
+            </div>
+          </div>
+          <p class="project-desc">End-to-end admin dashboard for a fertility clinic management platform. Clinic onboarding, user management, subscription plans, escrow transactions, SDK resources, and community moderation — all from one interface.</p>
+          <div class="project-highlights">
+            <span class="highlight">PageSkeleton component system</span>
+            <span class="highlight">Overflow bug fix (min-w-0)</span>
+            <span class="highlight">Multi-step modal flows</span>
+            <span class="highlight">Mobile-first</span>
+          </div>
+          <div class="project-stack">
+            <span class="tag">React</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">Radix UI</span>
+            <span class="tag">shadcn/ui</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a href="https://wurahealth.com/"target="_blank" 
+   rel="noopener" class="project-card fade-in">
+        <div class="project-body">
+          <div class="project-header">
+            <div class="project-meta">
+              <h3>WuraHealth — Patient Platform</h3>
+              <span class="project-type">Full-time · Health-tech startup · 2023–2025</span>
+            </div>
+          </div>
+          <p class="project-desc">Frontend development on the main patient-facing application for WuraHealth. Built a dynamic SEO system, resolved a critical authentication bug affecting all logged-in users, and shipped a custom searchable select used across 10+ pages.</p>
+          <div class="project-highlights">
+            <span class="highlight">Dynamic SEO (react-helmet-async)</span>
+            <span class="highlight">ProtectedRoute auth fix</span>
+            <span class="highlight">Custom searchable select</span>
+          </div>
+          <div class="project-stack">
+            <span class="tag">React.js</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">react-helmet-async</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a href="https://invoxa-zeta.vercel.app/login" target="_blank" 
+   rel="noopener" class="project-card fade-in">
+        <div class="project-body">
+          <div class="project-header">
+            <div class="project-meta">
+              <h3>Invoxa</h3>
+              <span class="project-type">7-day hackathon · Solo build · 2026</span>
+            </div>
+          </div>
+          <p class="project-desc">Solo-built a fully functional invoicing SaaS in 7 days. Auth, invoice CRUD, Paystack payment processing, and a polished dashboard — deployed to Vercel on day 7. Proof that I can move fast without sacrificing quality.</p>
+          <div class="project-highlights">
+            <span class="highlight">7-day solo build</span>
+            <span class="highlight">Paystack integration</span>
+            <span class="highlight">Deployed on Vercel</span>
+          </div>
+          <div class="project-stack">
+            <span class="tag">Next.js 14</span>
+            <span class="tag">Supabase</span>
+            <span class="tag">Paystack</span>
+            <span class="tag">shadcn/ui</span>
+            <span class="tag">Vercel</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <span class="label fade-in">Career</span>
+    <h2 class="section-title fade-in">Where I've worked</h2>
+    <p class="section-sub fade-in">3+ years building across health-tech, fintech, and SaaS — remote-first</p>
+
+    <div class="timeline">
+       <div class="timeline-item fade-in">
+        <div class="timeline-date">2026</div>
+        <div class="timeline-title">Indie Full-Stack Developer</div>
+        <div class="timeline-company">BillMetry · Self-initiated SaaS</div>
+        <div class="timeline-body">
+          Architected, built, and shipped a full-stack invoicing platform for African freelancers — from database schema to payment gateway to PDF generation to subscription tiers.
+        </div>
+      </div>
+    
+      <div class="timeline-item fade-in">
+        <div class="timeline-date">2026 – Present</div>
+        <div class="timeline-title">Frontend Developer (Contract)</div>
+        <div class="timeline-company">Fertily · Clinic Management Platform</div>
+        <div class="timeline-body">
+          Delivered a full admin and SDK dashboard redesign covering clinic management, subscription plans, escrow transactions, and community moderation.
+          <ul>
+            <li>PageSkeleton component with dynamic prop-driven layout support</li>
+            <li>Resolved persistent layout shift from data table overflow</li>
+            <li>Sequential modal refactor with mobile-first responsive design</li>
+          </ul>
+        </div>
+      </div>
+
+       <div class="timeline-item fade-in">
+        <div class="timeline-date">2023 – 2025</div>
+        <div class="timeline-title">Frontend Developer</div>
+        <div class="timeline-company">WuraHealth · Health-tech Startup</div>
+        <div class="timeline-body">
+          Building and maintaining the patient-facing web platform used by thousands across Nigeria.
+          <ul>
+            <li>Dynamic SEO system across 10+ pages with react-helmet-async</li>
+            <li>Resolved critical ProtectedRoute auth failure blocking all logged-in users</li>
+            <li>Built reusable searchable select component across the entire product</li>
+            <li>Improved mobile responsiveness significantly across all breakpoints</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-box fade-in">
+      <div class="contact-glow"></div>
+      <h2>Let's build something.</h2>
+      <p>Open to remote frontend roles, contract projects, and interesting conversations.</p>
+      <div class="contact-links">
+        <a href="mailto:akintanfemi100@gmail.com" class="btn-primary">Send me an email →</a>
+        <a href="https://github.com/pHemihCode" target="_blank" rel="noopener" class="btn-ghost">GitHub</a>
+        <a href="https://femi-akintan-portfolio.vercel.app" target="_blank" rel="noopener" class="btn-ghost">Old Portfolio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Akintan Femi Olaniyi</span>
+    <div class="footer-right">
+      <a href="https://github.com/pHemihCode" target="_blank" rel="noopener">GitHub</a>
+     <a href="mailto:akintanfemi@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection observer for fade-ins
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 70);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>
